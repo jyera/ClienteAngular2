@@ -1,13 +1,14 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';//Para hacer redirecciones y poder parametros de la url
 import { UserService } from  '../services/user.service';
+import { ArtistService } from  '../services/artist.service';
 import { GLOBAL } from '../services/global';
 import { Artist } from '../models/artist';
 
 @Component({
     selector : 'artist-add',
     templateUrl: '../views/artist-add.html',
-    providers: [UserService]//array de servicios que inyectamos
+    providers: [UserService, ArtistService]//array de servicios que inyectamos
 })
 
 export class ArtistAddComponent implements OnInit{
@@ -20,7 +21,8 @@ export class ArtistAddComponent implements OnInit{
     constructor(
         private _route: ActivatedRoute,
         private _router: Router,
-        private _userService: UserService
+        private _userService: UserService,
+        private _artistService: ArtistService
     ){
         this.title = 'Crear nuevo artista';
         this.identity = this._userService.getIdentity();
@@ -31,7 +33,10 @@ export class ArtistAddComponent implements OnInit{
 
     ngOnInit(){
         console.log('artist-add.component.ts cargado');
-
-        //Conseguir el listado de artistas
     }
+
+    onSubmit(){
+        console.log(this.artist);
+    }
+
 }
