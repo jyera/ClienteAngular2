@@ -3,6 +3,7 @@ import { Http, Response, Headers } from '@angular/http';
 import 'rxjs/add/operator/map';
 import { Observable } from 'rxjs/Observable';
 import { GLOBAL } from './global';
+import { Artist } from '../models/artist';
 
 @Injectable()//decorador para poder despues inyectar este servicio en otros componentes o otras clases
 export class ArtistService{
