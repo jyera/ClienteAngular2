@@ -27,6 +27,18 @@
         </span>
     </p>
 
+    <div *ngIf="is_edit">
+        <div class="artist_image_for_edit" *ngIf="artist.image && artist.image != null" >
+            <img src="{{url + 'get-image-artist/' + artist.image }}" />
+        </div>
+        <p>
+            <label>Sube la imagen del artista</label>
+            <input type="file" placeholder="Subir imagen..." (change)="fileChangeEvent($event)" />     
+        </p>
+        
+
+    </div>
+
     <input type="submit" value="{{title}}" [disabled]="!formArtist.form.valid"  class="tn btn-success" />
 </form>
 
