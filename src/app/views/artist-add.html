@@ -1,4 +1,4 @@
-<div class="col-lg-6">
+<div class="col-lg-6" *ngIf="identity && identity.role == 'ROLE_ADMIN'">
     
 
 
@@ -42,4 +42,9 @@
     <input type="submit" value="{{title}}" [disabled]="!formArtist.form.valid"  class="tn btn-success" />
 </form>
 
+</div>
+
+<div class="col-lg-6" *ngIf="!identity || identity.role != 'ROLE_ADMIN'">
+    <h1>ERROR</h1>
+    <p>No tienes acceso a esta parte de la aplicación</p>
 </div>
