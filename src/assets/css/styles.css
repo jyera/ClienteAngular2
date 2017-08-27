@@ -82,7 +82,7 @@ html, body{
 }
 
 
-.artist_image_for_edit img{
+.artist_image_for_edit img, .album_image_for_edit img{
 	width: 150px;
 }
 

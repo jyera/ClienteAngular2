@@ -1,39 +1,38 @@
 import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';//Para hacer redirecciones y poder parametros de la url
 import { UserService } from  '../services/user.service';
-import { ArtistService } from  '../services/artist.service';
 import { AlbumService } from  '../services/album.service';
 import { GLOBAL } from '../services/global';
 import { Artist } from '../models/artist';
 import { Album } from '../models/album';
 
 @Component({
-    selector : 'album-add',
+    selector : 'album-edit',
     templateUrl: '../views/album-add.html',
-    providers: [UserService, ArtistService, AlbumService]//array de servicios que inyectamos
+    providers: [UserService, AlbumService]//array de servicios que inyectamos
 })
 
-export class AlbumAddComponent implements OnInit{
+export class AlbumEditComponent implements OnInit{
     public title: string;
-    public artist: Artist;
     public album: Album;
     public identity;
     public token;
     public url: string;
     public alertMessage;
+    public is_edit;
 
     constructor(
         private _route: ActivatedRoute,
         private _router: Router,
         private _userService: UserService,
-        private _artistService: ArtistService,
         private _albumService: AlbumService
     ){
-        this.title = 'Crear nuevo album';
+        this.title = 'Editar album';
         this.identity = this._userService.getIdentity();
         this.token = this._userService.getToken();
         this.url = GLOBAL.url;
         this.album = new Album( '', '', 2017, '', '');
+        this.is_edit = true;
     }
 
     ngOnInit(){
