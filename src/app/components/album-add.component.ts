@@ -14,7 +14,7 @@ import { Album } from '../models/album';
 })
 
 export class AlbumAddComponent implements OnInit{
-    public title: string;
+    public titulo: string;
     public artist: Artist;
     public album: Album;
     public identity;
@@ -29,7 +29,7 @@ export class AlbumAddComponent implements OnInit{
         private _artistService: ArtistService,
         private _albumService: AlbumService
     ){
-        this.title = 'Crear nuevo album';
+        this.titulo = 'Crear nuevo album';
         this.identity = this._userService.getIdentity();
         this.token = this._userService.getToken();
         this.url = GLOBAL.url;
@@ -39,14 +39,14 @@ export class AlbumAddComponent implements OnInit{
     ngOnInit(){
         console.log('album-add.component.ts cargado');
         //Llamar al metodo del api para sacar un artista en base a su id getArtist
-        
+
     }
 
     onSubmit(){
         this._route.params.forEach((params: Params) =>{
             let artist_id = params['artist'];
             this.album.artist = artist_id;
-            
+
             this._albumService.addAlbum(this.token, this.album).subscribe(
                    response => {
 
@@ -70,7 +70,7 @@ export class AlbumAddComponent implements OnInit{
                   }
             );
         });
-        
+
     }
 
 }
