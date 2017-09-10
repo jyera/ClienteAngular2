@@ -2,17 +2,20 @@ import { Component, OnInit } from '@angular/core';
 import { Router, ActivatedRoute, Params } from '@angular/router';//Para hacer redirecciones y poder parametros de la url
 import { UserService } from  '../services/user.service';
 import { ArtistService } from  '../services/artist.service';
+import { AlbumService } from "../services/album.service";
 import { GLOBAL } from '../services/global';
 import { Artist } from '../models/artist';
+import { Album } from "../models/album";
 
 @Component({
     selector : 'artist-detail',
     templateUrl: '../views/artist-detail.html',
-    providers: [UserService, ArtistService]//array de servicios que inyectamos
+    providers: [UserService, ArtistService, AlbumService]//array de servicios que inyectamos
 })
 
 export class ArtistDetailComponent implements OnInit{
     public artist: Artist;
+    public albums: Album[];
     public identity;
     public token;
     public url: string;
@@ -22,7 +25,8 @@ export class ArtistDetailComponent implements OnInit{
         private _route: ActivatedRoute,
         private _router: Router,
         private _userService: UserService,
-        private _artistService: ArtistService
+        private _artistService: ArtistService,
+        private _albumService: AlbumService
     ){
         this.identity = this._userService.getIdentity();
         this.token = this._userService.getToken();
@@ -46,8 +50,25 @@ export class ArtistDetailComponent implements OnInit{
                         this._router.navigate(['/']);
                     }else{
                         this.artist = response.artist;
+                        this._albumService.getAlbums(this.token, response.artist._id).subscribe(
+                          response => {
+                            if(!response.albums){
+                              this.alertMessage = 'Este artista no tiene albums';
+                            }else {
+                              this.albums = response.albums;
+                            }
+                          }
+                          ,error => {
+                            var errorMessage = <any>error;
 
-                        //sacar los albums del artista
+                            if(errorMessage != null){
+                              var body = JSON.parse(error._body);
+                              //this.alertMessage = body.message;
+
+                              console.log(error);
+                            }
+                          }
+                        );
                     }
                 },
                 error => {
@@ -64,7 +85,7 @@ export class ArtistDetailComponent implements OnInit{
         });
     }
 
-    
 
-    
+
+
 }

@@ -89,7 +89,7 @@ export class AlbumEditComponent implements OnInit{
                             this._uploadService.makeFileRequest(this.url+'upload-image-album/'+id, [], this.filesToUpload, this.token, 'image')
                               .then(//metodo then de la promesa
                                 (result) => {
-                                  this._router.navigate(['/artista', response.album.artist]);
+                                  this._router.navigate(['/artista', response.album.artist._id]);
                                 },
                                 (error) => {
                                   console.log(error);
