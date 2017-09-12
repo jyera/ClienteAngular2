@@ -4,15 +4,18 @@ import { UserService } from  '../services/user.service';
 import { AlbumService } from "../services/album.service";
 import { GLOBAL } from '../services/global';
 import { Album } from "../models/album";
+import { SongService } from "../services/song.service";
+import { Song } from "../models/song";
 
 @Component({
   selector : 'album-detail',
   templateUrl: '../views/album-detail.html',
-  providers: [UserService, AlbumService]//array de servicios que inyectamos
+  providers: [UserService, AlbumService, SongService]//array de servicios que inyectamos
 })
 
 export class AlbumDetailComponent implements OnInit{
   public album: Album;
+  public songs: Song[];
   public identity;
   public token;
   public url: string;
@@ -22,7 +25,8 @@ export class AlbumDetailComponent implements OnInit{
     private _route: ActivatedRoute,
     private _router: Router,
     private _userService: UserService,
-    private _albumService: AlbumService
+    private _albumService: AlbumService,
+    private _songService: SongService
   ){
     this.identity = this._userService.getIdentity();
     this.token = this._userService.getToken();
@@ -47,13 +51,13 @@ export class AlbumDetailComponent implements OnInit{
           }else{
             this.album = response.album;
 
-            /*
-            this._albumService.getAlbums(this.token, response.artist._id).subscribe(
+            //Sacar las canciones
+            this._songService.getSongs(this.token, response.album._id).subscribe(
               response => {
-                if(!response.albums){
-                  this.alertMessage = 'Este artista no tiene albums';
+                if(!response.songs){
+                  this.alertMessage = 'Este album no tiene canciones';
                 }else {
-                  this.albums = response.albums;
+                  this.songs = response.songs;
                 }
               }
               ,error => {
@@ -66,7 +70,7 @@ export class AlbumDetailComponent implements OnInit{
                   console.log(error);
                 }
               });
-            */
+
           }
         },
         error => {
@@ -81,6 +85,37 @@ export class AlbumDetailComponent implements OnInit{
         }
       );
     });
+  }
+
+  public confirmado;
+  onDeleteConfirm(id){
+    this.confirmado = id;
+  }
+
+  onCancelSong(){
+    this.confirmado = null;
+  }
+
+  onDeleteSong(id){
+    this._songService.deleteSong(this.token, id).subscribe(
+      response => {
+          if(!response.song){
+            alert('Error en el servidor')
+          }
+
+          this.getAlbum();
+        }
+      ,error => {
+        var errorMessage = <any>error;
+
+        if(errorMessage != null){
+          var body = JSON.parse(error._body);
+          //this.alertMessage = body.message;
+
+          console.log(error);
+        }
+      }
+    );
   }
 
 }
