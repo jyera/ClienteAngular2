@@ -118,4 +118,20 @@ export class AlbumDetailComponent implements OnInit{
     );
   }
 
+  startPlayer(song){
+    let song_player = JSON.stringify(song);
+    let file_path = this.url + 'get-song-file/' + song.file;
+    let image_path = this.url + 'get-image-album/' + song.album.image;
+
+    localStorage.setItem('sound_song', song_player);
+    document.getElementById('mp3-source').setAttribute('src', file_path);
+    //el as anny es para forzar que el dato que hay ahi sea de tipo any
+    (document.getElementById('player') as any).load();
+    (document.getElementById('player') as any).play();
+
+    document.getElementById('play-song-title').innerHTML = song.name;
+    document.getElementById('play-song-artist').innerHTML = song.album.artist.name;
+    document.getElementById('play-image-album').setAttribute('src', image_path);
+  }
+
 }

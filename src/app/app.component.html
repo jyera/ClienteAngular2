@@ -27,7 +27,7 @@
 		<span id="identity_name">
 			{{identity.name}}
 		</span>
-		
+
 		<a [routerLink]="['/mis-datos']" [routerLinkActive]="['actived']">
 			<span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
 			Mis datos
@@ -42,6 +42,8 @@
 
 <div [class.hidden]="!identity" class="col-lg-11">
 	<router-outlet></router-outlet>
+  <div class="clearfix"></div>
+  <player class="player" *ngIf="identity"></player>
 </div>
 
 <div class="col-lg-11" *ngIf="!identity">
